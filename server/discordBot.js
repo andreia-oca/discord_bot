@@ -3,9 +3,7 @@ import nacl from "tweetnacl";
 export class DiscordBot {
 
   async testDiscord(request) {
-    console.log(request);
-
-    const PUBLIC_KEY = 'e7125d2d1e7183f2b2df5d1fefc5d1567c8a50b0db589656ae47b492375b7365';
+    const PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY;
 
     const signature = request.headers['x-signature-ed25519'];
     const timestamp = request.headers['x-signature-timestamp'];
@@ -17,31 +15,43 @@ export class DiscordBot {
       Buffer.from(PUBLIC_KEY, 'hex')
     );
 
-    console.log("IsVerified: ", isVerified);
+    console.log("Request IsVerified: ", isVerified);
 
     if (!isVerified) {
-      return json({ status: 401, error: 'invalid request signature' })
+      return {
+        body: { "error": "invalid request signature" },
+        headers: {"content-type": "application/json" },
+        statusCode: "401",
+      }
     }
 
     if (request.http.method === "POST") {
 
       if (request.body.type === 1) {
-        console.log("PONG");
-        return json({
-          "type": 1,
-        })
+        console.log("PING message received");
+        return {
+          body: {
+            "type": 1
+          },
+          headers: {"content-type": "application/json" },
+          statusCode: "200",
+        }
       }
       if (request.body.type === 2) {
-        console.log("COMMAND");
-        return json({
-          "type": 4,
-          "data": {
-            "content": "Hello!",
-          },
-        })
-      }
+        console.log("COMMAND message received");
 
-      return json({ status: 400, error: 'bad request' })
+        console.log("Command: ", request);
+        return {
+          body: {
+            "type": 4,
+            "data": {
+              "content": "Hello!",
+            },
+          },
+          headers: {"content-type": "application/json" },
+          statusCode: "200",
+        }
+      }
     }
   }
 }
