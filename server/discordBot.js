@@ -41,11 +41,13 @@ export class DiscordBot {
         console.log("COMMAND message received");
 
         console.log("Command: ", request);
+
+        const query_param = request.body.data.options[0].value;
         return {
           body: {
             "type": 4,
             "data": {
-              "content": "Hello!",
+              "content": `Hello, ${query_param}!`
             },
           },
           headers: {"content-type": "application/json" },
