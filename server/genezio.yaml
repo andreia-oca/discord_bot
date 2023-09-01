@@ -1,0 +1,14 @@
+name: DiscordBot
+region: us-east-1
+cloudProvider: genezio
+sdk:
+  language: js
+  path: ../client/sdk
+options:
+  nodeRuntime: nodejs18.x
+classes:
+  - path: discordBot.js
+    type: jsonrpc
+    methods:
+      - name: testDiscord
+        type: http
