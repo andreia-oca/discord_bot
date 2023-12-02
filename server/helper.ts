@@ -16,26 +16,3 @@ export class GenezioQueue {
       });
   }
 }
-
-
-// const url =
-//   `https://qstash.upstash.io/v2/publish/${queueUrl}`;
-// const data = {
-//   webhook_token: request.body.token,
-//   query_param: query_param,
-// };
-
-// const headers = {
-//   Authorization: 'Bearer ' + process.env.QSTASH_TOKEN,
-//   'Content-Type': 'application/json',
-// };
-
-// axios
-//   .post(url, data, { headers: headers })
-//   .then((res) => {
-//     console.log(`statusCode: ${res.status}`);
-//     console.log(res.data);
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
