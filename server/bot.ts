@@ -3,7 +3,7 @@ import { GenezioHttpResponse, GenezioHttpRequest } from '@genezio/types';
 import { GenezioDeploy, GenezioMethod } from '@genezio/types';
 import { InteractionResponseType, InteractionType } from 'discord-interactions';
 import axios from 'axios';
-import { GenezioQueue } from './helper';
+import { GenezioQStashQueue } from './helper';
 
 export type DiscordBotCommand = {
   name: string;
@@ -82,7 +82,8 @@ export class DiscordBotService {
 
             // Publish a task to the queue
             console.log('Pushing task to the queue');
-            GenezioQueue.push(process.env.QUEUE_WEBHOOK_URL!, {
+            const genezioQueue = new GenezioQStashQueue(process.env.QSTASH_TOKEN!);
+            genezioQueue.push(process.env.QUEUE_WEBHOOK_URL!, {
               discord_message_token: request.body.token,
               name: name,
             });
