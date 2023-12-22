@@ -11,7 +11,7 @@ export class HelloWorker {
     const name: string = request.body.name;
     console.log(`[HELLO WORKER] Hello world, ${name}!`);
 
-    await this.sendReplyToDiscord(
+    await this.#sendReplyToDiscord(
       request.body.discord_message_token,
       name
     );
@@ -24,7 +24,7 @@ export class HelloWorker {
     return response;
   }
 
-  async sendReplyToDiscord(token: string, name: string) {
+  async #sendReplyToDiscord(token: string, name: string) {
     const url = DISCORD_WEBHOOK.replace('<message_token>', token);
     const headers = {
       'Content-Type': 'application/json',
